@@ -1,46 +1,22 @@
-import { Ionicons } from '@expo/vector-icons'; // Standart ikonlar daha güvenlidir
-import { Tabs } from 'expo-router';
-import React from 'react';
+import { Stack } from 'expo-router';
 
-export default function TabLayout() {
+export default function RootLayout() {
   return (
-    <Tabs
-      screenOptions={{
-        // Alt barı siyah yapalım ki projemize uysun
-        tabBarStyle: { backgroundColor: '#121212', borderTopWidth: 0 },
-        tabBarActiveTintColor: '#00ff88', // Aktif sekme neon yeşil
-        tabBarInactiveTintColor: '#888',
-        headerStyle: { backgroundColor: '#121212' },
-        headerTintColor: '#fff',
-        headerShown: true, // Başlıklar görünsün
-      }}>
+    <Stack screenOptions={{ headerShown: false }}>
+      {/* Ana sekmeleri tek bir grup olarak görüyoruz */}
+      <Stack.Screen name="(tabs)" />
       
-      {/* 1. SEKME: PİYASALAR */}
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Piyasalar',
-          tabBarIcon: ({ color }) => <Ionicons name="stats-chart" size={24} color={color} />,
-        }}
+      {/* Modal'ı ayrı bir ekran olarak tanımlıyoruz */}
+      <Stack.Screen 
+        name="modal" 
+        options={{ 
+          presentation: 'modal', 
+          headerShown: true,
+          headerTitle: 'Varlık Ekle',
+          headerStyle: { backgroundColor: '#121212' },
+          headerTintColor: '#fff'
+        }} 
       />
-
-      {/* 2. SEKME: KEŞFET (EXPLORE) */}
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Keşfet',
-          tabBarIcon: ({ color }) => <Ionicons name="search" size={24} color={color} />,
-        }}
-      />
-
-      {/* 3. SEKME: PORTFÖYÜM */}
-      <Tabs.Screen
-        name="portfolio"
-        options={{
-          title: 'Portföyüm',
-          tabBarIcon: ({ color }) => <Ionicons name="wallet" size={24} color={color} />,
-        }}
-      />
-    </Tabs>
+    </Stack>
   );
 }
