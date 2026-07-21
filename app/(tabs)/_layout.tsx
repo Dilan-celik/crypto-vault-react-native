@@ -1,22 +1,19 @@
-import { Stack } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
+import { Tabs } from 'expo-router';
 
-export default function RootLayout() {
+export default function TabLayout() {
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      {/* Ana sekmeleri tek bir grup olarak görüyoruz */}
-      <Stack.Screen name="(tabs)" />
-      
-      {/* Modal'ı ayrı bir ekran olarak tanımlıyoruz */}
-      <Stack.Screen 
-        name="modal" 
-        options={{ 
-          presentation: 'modal', 
-          headerShown: true,
-          headerTitle: 'Varlık Ekle',
-          headerStyle: { backgroundColor: '#121212' },
-          headerTintColor: '#fff'
-        }} 
-      />
-    </Stack>
+    <Tabs screenOptions={{ 
+        tabBarStyle: { backgroundColor: '#000', borderTopWidth: 0, height: 60 },
+        tabBarActiveTintColor: '#00ff88',
+        tabBarInactiveTintColor: '#555',
+        headerStyle: { backgroundColor: '#000' },
+        headerTintColor: '#fff',
+        headerTitleStyle: { fontWeight: 'bold' }
+    }}>
+      <Tabs.Screen name="index" options={{ title: 'Piyasalar', tabBarIcon: ({color}) => <Ionicons name="stats-chart" size={24} color={color} /> }} />
+      <Tabs.Screen name="explore" options={{ title: 'Keşfet', tabBarIcon: ({color}) => <Ionicons name="search" size={24} color={color} /> }} />
+      <Tabs.Screen name="portfolio" options={{ title: 'Portföyüm', tabBarIcon: ({color}) => <Ionicons name="wallet" size={24} color={color} /> }} />
+    </Tabs>
   );
 }
