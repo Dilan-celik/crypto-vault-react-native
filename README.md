@@ -1,50 +1,40 @@
-# Welcome to your Expo app 👋
+# 🪙 CryptoVault: Real-Time Portfolio Tracker
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+![React Native](https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Expo](https://img.shields.io/badge/Expo-1B1F23?style=for-the-badge&logo=expo&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 
-## Get started
+**CryptoVault**, CoinGecko API kullanarak gerçek zamanlı kripto para piyasası takibi yapmanızı ve kişisel portföyünüzü yönetmenizi sağlayan modern bir mobil uygulamadır.
 
-1. Install dependencies
+## ✨ Özellikler
 
-   ```bash
-   npm install
-   ```
+- **📈 Canlı Piyasa Verileri:** En popüler 50 kripto paranın fiyatlarını, sembollerini ve günlük değişimlerini anlık olarak listeleyin.
+- **🔍 Akıllı Keşfet Sayfası:** Günün "En Çok Artan" ve "En Çok Düşen" coinlerini özel algoritmik sıralama ile görün.
+- **💼 Kişisel Portföy:**
+  - İstediğiniz coini portföyünüze ekleyin.
+  - Varlıklarınızı silin veya miktarını güncelleyin.
+  - Toplam portföy değerinizi otomatik hesaplanmış şekilde görün.
+- **💾 Kalıcı Veri (Local Storage):** `AsyncStorage` entegrasyonu sayesinde uygulama kapansa bile verileriniz telefonunuzda güvende kalır.
+- **🌙 Dark Mode UI:** Göz yormayan, modern ve şık "Dark Theme" arayüz.
 
-2. Start the app
+## 🛠️ Kullanılan Teknolojiler
 
-   ```bash
-   npx expo start
-   ```
+- **Framework:** [React Native](https://reactnative.dev/) (Expo SDK 51+)
+- **Navigation:** [Expo Router](https://docs.expo.dev/router/introduction/) (File-based routing)
+- **State Management:** Custom Hooks (Logic & UI separation)
+- **Data Fetching:** Fetch API & CoinGecko Public API
+- **Storage:** @react-native-async-storage/async-storage
+- **Icons:** @expo/vector-icons (Ionicons)
 
-In the output, you'll find options to open the app in a
+## 📂 Dosya Yapısı
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```text
+crypto-vault/
+├── app/               # Expo Router - Sayfa yapıları
+│   ├── (tabs)/        # Tab Navigation (Market, Explore, Portfolio)
+│   └── _layout.tsx    # Kök navigasyon ayarları
+├── src/
+│   ├── hooks/         # Özel mantıksal fonksiyonlar (useCrypto, usePortfolio)
+│   ├── services/      # API istek yönetimi (cryptoApi)
+│   └── types/         # TypeScript tip tanımlamaları
+└── assets/            # Görsel materyaller
