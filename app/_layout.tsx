@@ -1,16 +1,10 @@
-import { Ionicons } from '@expo/vector-icons';
-import { Tabs } from 'expo-router';
+import { Stack } from 'expo-router';
 
-export default function TabLayout() {
+export default function RootLayout() {
   return (
-    <Tabs screenOptions={{ 
-        tabBarStyle: { backgroundColor: '#121212' }, 
-        headerStyle: { backgroundColor: '#121212' },
-        headerTintColor: '#fff',
-        tabBarActiveTintColor: '#00ff88' 
-    }}>
-      <Tabs.Screen name="index" options={{ title: 'Piyasalar', tabBarIcon: ({color}) => <Ionicons name="stats-chart" size={24} color={color} /> }} />
-      <Tabs.Screen name="portfolio" options={{ title: 'Portföyüm', tabBarIcon: ({color}) => <Ionicons name="wallet" size={24} color={color} /> }} />
-    </Tabs>
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="(tabs)" />
+      <Stack.Screen name="modal" options={{ presentation: 'modal', headerShown: true, headerTitle: 'Varlık Ekle', headerStyle: { backgroundColor: '#121212' }, headerTintColor: '#fff' }} />
+    </Stack>
   );
 }
