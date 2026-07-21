@@ -1,39 +1,65 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useRouter } from 'expo-router';
+import { ActivityIndicator, FlatList, Image, RefreshControl, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useCrypto } from '../../src/hooks/useCrypto';
 
-export default function ExploreScreen() {
-  const { coins } = useCrypto();
-  const gainers = [...coins].sort((a, b) => b.price_change_percentage_24h - a.price_change_percentage_24h).slice(0, 6);
-  const losers = [...coins].sort((a, b) => a.price_change_percentage_24h - b.price_change_percentage_24h).slice(0, 6);
+export default function MarketScreen() {
+  const { coins, loading, refreshing, onRefresh } = useCrypto();
+  const router = useRouter();
+
+  if (loading) return <View style={styles.center}><ActivityIndicator size="large" color="#00ff88" /></View>;
 
   return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.title}>🚀 En Çok Artanlar</Text>
-      <View style={styles.row}>
-        {gainers.map(item => (
-          <View key={item.id} style={styles.card}>
-            <Text style={styles.cardSymbol}>{item.symbol.toUpperCase()}</Text>
-            <Text style={{color:'#00ff88'}}>%{item.price_change_percentage_24h.toFixed(2)}</Text>
+    <View style={styles.container}>
+      <FlatList
+        data={coins}
+        keyExtractor={(item) => item.id}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#00ff88" />}
+        renderItem={({ item }) => (
+          <View style={styles.coinItem}>
+            {/* SOL TARAF: Logo ve İsim */}
+            <View style={styles.left}>
+              <Image source={{ uri: item.image }} style={styles.img} />
+              <View style={{ flexShrink: 1 }}>
+                <Text style={styles.name} numberOfLines={1}>{item.name}</Text>
+                <Text style={styles.symbol}>{item.symbol.toUpperCase()}</Text>
+              </View>
+            </View>
+
+            {/* SAĞ TARAF: Fiyat ve Buton */}
+            <View style={styles.right}>
+              <Text style={styles.price} numberOfLines={1}>${item.current_price.toLocaleString()}</Text>
+              <TouchableOpacity 
+                onPress={() => router.push({ pathname: '/modal', params: { id: item.id, name: item.name, price: item.current_price, image: item.image } })}
+                style={styles.btn}
+              >
+                <Text style={styles.btnText}>EKLE</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        ))}
-      </View>
-      <Text style={[styles.title, {marginTop:30}]}>🔻 En Çok Düşenler</Text>
-      <View style={styles.row}>
-        {losers.map(item => (
-          <View key={item.id} style={styles.card}>
-            <Text style={styles.cardSymbol}>{item.symbol.toUpperCase()}</Text>
-            <Text style={{color:'#ff4444'}}>%{item.price_change_percentage_24h.toFixed(2)}</Text>
-          </View>
-        ))}
-      </View>
-    </ScrollView>
+        )}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#000', padding: 20 },
-  title: { color: 'white', fontSize: 22, fontWeight: 'bold', marginBottom: 20 },
-  row: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
-  card: { backgroundColor: '#111', padding: 15, borderRadius: 15, width: '30%', alignItems: 'center' },
-  cardSymbol: { color: 'white', fontWeight: 'bold', marginBottom: 5 }
+  container: { flex: 1, backgroundColor: '#000' },
+  center: { flex: 1, backgroundColor: '#000', justifyContent: 'center', alignItems: 'center' },
+  coinItem: { 
+    flexDirection: 'row', 
+    justifyContent: 'space-between', 
+    alignItems: 'center', 
+    paddingHorizontal: 15, 
+    paddingVertical: 12, 
+    borderBottomWidth: 0.5, 
+    borderBottomColor: '#1a1a1a' 
+  },
+  left: { flexDirection: 'row', alignItems: 'center', flex: 1 }, // Sol taraf genişleyebilir
+  img: { width: 32, height: 32, marginRight: 10 },
+  name: { color: 'white', fontWeight: 'bold', fontSize: 16 },
+  symbol: { color: '#666', fontSize: 12 },
+  right: { alignItems: 'flex-end', marginLeft: 10 }, // Sağ taraf sabit kalır
+  price: { color: 'white', fontWeight: 'bold', fontSize: 15, marginBottom: 4 },
+  btn: { backgroundColor: '#00ff88', paddingHorizontal: 12, paddingVertical: 6, borderRadius: 8 },
+  btnText: { color: 'black', fontWeight: 'bold', fontSize: 12 }
 });
